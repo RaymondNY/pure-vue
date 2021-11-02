@@ -6,6 +6,7 @@ module.exports = {
   //部署到服务器需要注释
   //publicPath: './',
   // 2.配置方式二: 和webpack属性完全一致, 最后会进行合并
+  //本地开发跨域时候
   devServer: {
     proxy: {
       '^/api': {
