@@ -1,10 +1,10 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { HYRequestInterceptors, HYRequestConfig } from './type'
-// import { ElLoading } from 'element-plus'
+import { ElLoading } from 'element-plus'
 import { ILoadingInstance } from 'element-plus/lib/components/loading/src/loading.type'
 
-// import type { DataType } from '../../main'
+import type { DataType } from '../../main'
 
 const DEAFULT_LOADING = true
 class HYRequest {
@@ -31,51 +31,45 @@ class HYRequest {
       this.interceptors?.responseInterceptorCatch
     )
     // 2.添加所有的实例都有的拦截器
-    // this.instance.interceptors.request.use(
-    //   (config) => {
-    //     console.log('所有的实例都有的拦截器: 请求成功拦截')
+    this.instance.interceptors.request.use(
+      (config) => {
+        if (this.showLoading) {
+          this.loading = ElLoading.service({
+            lock: true,
+            text: '正在请求数据....',
+            background: 'rgba(0, 0, 0, 0.5)'
+          })
+        }
+        return config
+      },
+      (err) => {
+        return err
+      }
+    )
 
-    //     if (this.showLoading) {
-    //       this.loading = ElLoading.service({
-    //         lock: true,
-    //         text: '正在请求数据....',
-    //         background: 'rgba(0, 0, 0, 0.5)'
-    //       })
-    //     }
-    //     return config
-    //   },
-    //   (err) => {
-    //     console.log('所有的实例都有的拦截器: 请求失败拦截')
-    //     return err
-    //   }
-    // )
+    this.instance.interceptors.response.use(
+      (res) => {
+        // 将loading移除
+        this.loading?.close()
+        console.log('顺序1')
+        const data = res.data as DataType
+        if (data.returnCode === '-1001') {
+          console.log('请求失败~, 错误信息')
+        } else {
+          return data
+        }
+      },
+      (err) => {
+        // 将loading移除
+        this.loading?.close()
 
-    // this.instance.interceptors.response.use(
-    //   (res) => {
-    //     console.log('所有的实例都有的拦截器: 响应成功拦截')
-
-    //     // 将loading移除
-    //     this.loading?.close()
-
-    //     const data = res.data as DataType
-    //     if (data.returnCode === '-1001') {
-    //       console.log('请求失败~, 错误信息')
-    //     } else {
-    //       return data
-    //     }
-    //   },
-    //   (err) => {
-    //     console.log('所有的实例都有的拦截器: 响应失败拦截')
-    //     // 将loading移除
-    //     this.loading?.close()
-
-    //     // 例子: 判断不同的HttpErrorCode显示不同的错误信息
-    //     if (err.response.status === 404) {
-    //       console.log('404的错误~')
-    //     }
-    //     return err
-    //   }
-    // )
+        // 例子: 判断不同的HttpErrorCode显示不同的错误信息
+        if (err.response.status === 404) {
+          console.log('404的错误~')
+        }
+        return err
+      }
+    )
   }
   request<T>(config: HYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {

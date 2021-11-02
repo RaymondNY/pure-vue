@@ -22,8 +22,8 @@ setupStore()
 app.mount('#app')
 
 // console.log(VUE_APP_BASE_URL)
-console.log(process.env.VUE_APP_BASE_URL)
-console.log(process.env.VUE_APP_BASE_NAME)
+// console.log(process.env.VUE_APP_BASE_URL)
+// console.log(process.env.VUE_APP_BASE_NAME)
 
 // hyRequest.request({
 //   url: '/home/multidata',

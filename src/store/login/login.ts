@@ -39,6 +39,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       //1.实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
+      console.log('store里的token' + token)
       commit('changeToken', token)
       localCache.setCache('token', token)
 

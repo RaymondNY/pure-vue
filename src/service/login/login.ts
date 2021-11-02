@@ -7,10 +7,11 @@ enum LoginAPI {
   LoginUserInfo = '/users/',
   UserMenus = '/role/'
 }
-export function accountLoginRequest(accout: IAccount) {
+
+export function accountLoginRequest(account: IAccount) {
   return hyRequest.post<IDataType<ILoginResult>>({
     url: LoginAPI.AccountLogin,
-    data: accout
+    data: account
   })
 }
 
