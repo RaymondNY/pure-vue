@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HyForm, { IFormItem } from '@/base-ui/form'
+import HyForm from '@/base-ui/form'
 import { searchFormConfig } from './config/search.config'
 export default defineComponent({
   name: 'user',

@@ -5,7 +5,7 @@
       <span v-if="!collapse" class="title">Vue3+Ts</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultValue"
       class="el-menu-vertical"
       background-color="#0c2135"
       :collapse="collapse"
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 
@@ -60,13 +60,15 @@ export default defineComponent({
     const userMenus = computed(() => store.state.login.userMenus)
 
     const router = useRouter()
+
+    const defaultValue = ref('2')
     const handleMenuItemClick = (item: any) => {
       console.log(item)
       router.push({
         path: item.url ?? '/not-found'
       })
     }
-    return { userMenus, handleMenuItemClick }
+    return { userMenus, handleMenuItemClick, defaultValue }
   }
 })
 </script>
