@@ -66,6 +66,7 @@ export default defineComponent({
 
     const menu = pathMapToMenu(userMenus.value, currentPath)
 
+    console.log(menu)
     const defaultValue = ref(menu.id + '')
 
     const handleMenuItemClick = (item: any) => {
