@@ -1,47 +1,33 @@
 <template>
   <div class="user">
-    <hy-form v-bind="searchFormConfig" v-model="formData">
-      <template #header>
-        <h1 class="header">高级检索</h1>
-      </template>
-      <template #footer>
-        <div class="handle-btns">
-          <el-button type="primary" icon="el-icon-refresh">reset</el-button>
-          <el-button type="primary" icon="el-icon-refresh">search</el-button>
-        </div>
-      </template>
-    </hy-form>
+    <page-search :searchFormConfig="searchFormConfig" />
+    <page-content
+      :contentTableConfig="contentTableConfig"
+      pageName="users"
+    ></page-content>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import HyForm from '@/base-ui/form'
+import { defineComponent } from 'vue'
+import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
 import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/content.config'
 export default defineComponent({
   name: 'user',
   components: {
-    HyForm
+    PageSearch,
+    PageContent
   },
   setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    })
-    return { searchFormConfig, formData }
+    //const userCount = computed(() => store.state.system.userCount)
+    return {
+      searchFormConfig,
+      contentTableConfig
+    }
   }
 })
 </script>
 
-<style scoped>
-.header {
-  color: red;
-}
-.handle-btns {
-  text-align: right;
-  padding: 0 50px 20px 0;
-}
-</style>
+<style scoped></style>
