@@ -13,7 +13,9 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item icon="el-icon-cloudy">退出登录</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-cloudy" @click="handleExitClick">
+            退出登录
+          </el-dropdown-item>
           <el-dropdown-item divided>用户信息</el-dropdown-item>
           <el-dropdown-item>系统管理</el-dropdown-item>
         </el-dropdown-menu>
@@ -26,6 +28,9 @@
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 import { ArrowDown } from '@element-plus/icons'
+import localCache from '@/utils/cache'
+import { useRouter } from 'vue-router'
+
 export default defineComponent({
   components: {
     ArrowDown
@@ -34,9 +39,15 @@ export default defineComponent({
     const store = useStore()
     const name = computed(() => store.state.login.userInfo.name)
 
+    const router = useRouter()
+    const handleExitClick = () => {
+      localCache.deleteCache('token')
+      router.push('/main')
+    }
     return {
       ArrowDown,
-      name
+      name,
+      handleExitClick
     }
   }
 })
